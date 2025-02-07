@@ -1,6 +1,6 @@
 package com.microservico.ecommerce.connection;
 
-import com.microservico.ecommerce.constantes.RabbitmqConstantes;
+import org.example.constantes.RabbitmqConstantes;
 import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
@@ -35,6 +35,7 @@ public class RabbitmqConnection {
     @PostConstruct
     private void adiciona() {
         Queue filaPedidos = this.fila(RabbitmqConstantes.FILA_PEDIDOS);
+        Queue filaEmail = this.fila(RabbitmqConstantes.FILA_CONFIRMACAO_PEDIDOS_EMAIL);
 
         DirectExchange troca = this.trocaDireta();
 
@@ -42,6 +43,7 @@ public class RabbitmqConnection {
 
         //criando as filas no rabbitmq
         this.amqpAdmin.declareQueue(filaPedidos);
+        this.amqpAdmin.declareQueue(filaEmail);
 
         //criando a exchange no rabbitmq
         this.amqpAdmin.declareExchange(troca);
